@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Countdown Timer - Modern Style</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+    body {
+      font-family: 'Nunito', Arial, sans-serif;
+      background: linear-gradient(135deg, #d9e2f3 0%, #ffffff 100%);
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      align-items: center;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      padding: 40px 38px 32px 38px;
+      max-width: 560px;
+      width: 95vw;
+      text-align: center;
+      backdrop-filter: saturate(180%) blur(15px);
+      border: 1.5px solid #aac9f7;
+      animation: fadeInScale 0.7s ease forwards;
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.92);}
+      to { opacity: 1; transform: scale(1);}
+    }
+    h2 {
+      color: #344e86;
+      margin-bottom: 18px;
+      font-weight: 700;
+      font-size: 1.85em;
+      letter-spacing: 0.05em;
+    }
+    .student-info {
+      color: #61759f;
+      font-size: 1.12em;
+      margin-bottom: 24px;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+      line-height: 1.5;
+      user-select: none;
+    }
+    label {
+      font-weight: 700;
+      color: #1e3a8a;
+      display: block;
+      font-size: 1.12em;
+      margin-bottom: 8px;
+      text-align: left;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    input[type="datetime-local"] {
+      width: 100%;
+      max-width: 300px;
+      padding: 14px 16px;
+      font-size: 1.1em;
+      border: 2px solid #a9bcf5;
+      border-radius: 12px;
+      outline-offset: 3px;
+      outline-color: #668cffcc;
+      transition: border-color 0.3s ease, outline-color 0.3s ease;
+      margin: 0 auto 24px auto;
+      display: block;
+      color: #2b3a7f;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: text;
+    }
+    input[type="datetime-local"]:focus {
+      border-color: #3f58b4;
+      outline-color: #546ed9;
+      background-color: #e6eaff;
+    }
+    .btn-row {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+    .btn-row button {
+      flex: 1;
+      padding: 14px 10px;
+      background: linear-gradient(135deg, #3b72ff 0%, #246cf3 100%);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.12em;
+      cursor: pointer;
+      transition: background-color 0.25s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 14px rgba(36,108,243,0.45);
+      user-select: none;
+    }
+    .btn-row button:hover, .btn-row button:focus {
+      background: linear-gradient(135deg, #5d87ff 0%, #4a78ee 100%);
+      box-shadow: 0 6px 23px rgba(36,108,243,0.65);
+    }
+    #countdown {
+      font-size: 3.2em;
+      font-weight: 900;
+      margin: 36px 0 0 0;
+      color: #dc3c45;
+      letter-spacing: 0.08em;
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 64px;
+      user-select: none;
+    }
+    @media (max-width: 400px) {
+      h2 { font-size: 1.55em; }
+      #countdown { font-size: 2.5em; }
+      .btn-row { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Countdown Timer</h2>
+    <div class="student-info">
+      Name: <b>Soumitra Kode</b><br>
+      Roll No: <b>42134</b><br>
+      Div: <b>BE-06</b><br>
+      Batch: <b>P6</b>
+    </div>
+
+    <label for="endDate">Enter end date and time:</label>
+    <input type="datetime-local" id="endDate" />
+
+    <div class="btn-row">
+      <button id="startBtn">Start Countdown</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+
+    <div id="countdown">0d 0h 0m 0s</div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const countdownEl = document.getElementById('countdown');
+    const endInput = document.getElementById('endDate');
+
+    let countdownInterval;
+
+    startBtn.addEventListener('click', () => {
+      clearInterval(countdownInterval);
+
+      if (!endInput.value) {
+        alert('Please select an end date/time.');
+        return;
+      }
+
+      const endTime = new Date(endInput.value).getTime();
+
+      if (isNaN(endTime)) {
+        alert('Invalid date format.');
+        return;
+      }
+
+      countdownInterval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        if (distance < 0) {
+          clearInterval(countdownInterval);
+          countdownEl.textContent = "COUNTDOWN FINISHED!";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }, 1000);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      clearInterval(countdownInterval);
+      countdownEl.textContent = "0d 0h 0m 0s";
+      endInput.value = "";
+    });
+  </script>
+</body>
+</html>

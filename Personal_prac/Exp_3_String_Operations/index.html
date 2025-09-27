@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exp 3 - String Operations (Revised)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(93deg, #e0eaef 0%, #f3f2f4 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 670px;
+            margin: 38px auto;
+            background: #fff;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 30px 32px;
+            border-radius: 14px;
+        }
+        h1 {
+            text-align: center;
+            color: #1464c4;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #346078;
+            margin-bottom: 8px;
+            margin-top: 22px;
+        }
+        .section {
+            background: #f7fbfc;
+            border: 1px solid #cde7f6;
+            border-radius: 8px;
+            margin-bottom: 27px;
+            padding: 18px 14px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 9px;
+            margin-top: 7px;
+            border-radius: 5px;
+            border: 1px solid #b3c6e0;
+            font-size: 1em;
+        }
+        button {
+            background-color: #1464c4;
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            margin: 10px 6px 0px 0px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background: #345479; }
+        .reset-btn { background-color: #778899; }
+        .reset-btn:hover { background-color: #344050; }
+        .output {
+            margin-top: 8px;
+            font-weight: 500;
+            color: #15a735;
+            background: #eafbe7;
+            border-radius: 4px;
+            padding: 6px 10px;
+        }
+        .error {
+            margin-top: 8px;
+            font-weight: 500;
+            color: #e24863;
+            background: #f9dade;
+            border-radius: 4px;
+            padding: 6px 10px;
+        }
+        @media(max-width:700px) {
+            .container { padding: 9px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>JavaScript</h1>
+    <div style="text-align:center; margin-bottom:22px;">
+        <p>
+            <strong>Experiment 3: String operations</strong><br>
+            <strong>Soumitra Kode &bullet; Roll : 42134 &bullet; BE-06-                                                                                                                                                                 P6</strong>
+        </p>
+    </div>
+    <!-- Reverse String Section -->
+    <div class="section" id="reverseSection">
+        <h2>1. Reverse String</h2>
+        <input type="text" id="reverseInput" placeholder="Enter a string to reverse">
+        <button onclick="reverseString()">Reverse</button>
+        <button onclick="resetReverse()" class="reset-btn">Reset</button>
+        <div id="reverseOutput" class="output"></div>
+        <div id="reverseError" class="error"></div>
+    </div>
+    <!-- Replace Text Section -->
+    <div class="section" id="replaceSection">
+        <h2>2. Replace Text</h2>
+        <input type="text" id="replaceInput" placeholder="Original string">
+        <input type="text" id="replaceFrom" placeholder="Text to find">
+        <input type="text" id="replaceTo" placeholder="Replace with">
+        <button onclick="replaceCharacters()">Replace All</button>
+        <button onclick="resetReplace()" class="reset-btn">Reset</button>
+        <div id="replaceOutput" class="output"></div>
+        <div id="replaceError" class="error"></div>
+    </div>
+    <!-- Palindrome Section -->
+    <div class="section" id="palindromeSection">
+        <h2>3. Check Palindrome</h2>
+        <input type="text" id="palindromeInput" placeholder="Enter string to check">
+        <button onclick="checkPalindrome()">Check</button>
+        <button onclick="resetPalindrome()" class="reset-btn">Reset</button>
+        <div id="palindromeOutput" class="output"></div>
+        <div id="palindromeError" class="error"></div>
+    </div>
+</div>
+<script>
+// Utility function to clear output and error
+function clearOutput(sectionId) {
+    document.getElementById(sectionId + 'Output').innerText = '';
+    document.getElementById(sectionId + 'Error').innerText = '';
+}
+// 1. Reverse String Function
+function reverseString() {
+    clearOutput('reverse');
+    const input = document.getElementById('reverseInput').value.trim();
+    if (!input) {
+        document.getElementById('reverseError').innerText = 'Please enter a valid string.';
+        return;
+    }
+    const reversed = input.split('').reverse().join('');
+    document.getElementById('reverseOutput').innerText = `Reversed String: ${reversed}`;
+}
+function resetReverse() {
+    document.getElementById('reverseInput').value = '';
+    clearOutput('reverse');
+}
+// 2. Replace Text Function
+function replaceCharacters() {
+    clearOutput('replace');
+    const input = document.getElementById('replaceInput').value;
+    const from = document.getElementById('replaceFrom').value;
+    const to = document.getElementById('replaceTo').value;
+    if (!input.trim()) {
+        document.getElementById('replaceError').innerText = 'Original string cannot be empty.';
+        return;
+    }
+    if (!from) {
+        document.getElementById('replaceError').innerText = 'Text to find cannot be empty.';
+        return;
+    }
+    const replaced = input.replaceAll(from, to);
+    document.getElementById('replaceOutput').innerText = `Result: ${replaced}`;
+}
+function resetReplace() {
+    document.getElementById('replaceInput').value = '';
+    document.getElementById('replaceFrom').value = '';
+    document.getElementById('replaceTo').value = '';
+    clearOutput('replace');
+}
+// 3. Palindrome Check Function
+function checkPalindrome() {
+    clearOutput('palindrome');
+    const input = document.getElementById('palindromeInput').value.trim();
+    if (!input) {
+        document.getElementById('palindromeError').innerText = 'Please enter a valid string.';
+        return;
+    }
+    const clean = input.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const isPalindrome = clean === clean.split('').reverse().join('');
+    document.getElementById('palindromeOutput').innerText = isPalindrome
+        ? `"${input}" is a palindrome.`
+        : `"${input}" is not a palindrome.`;
+}
+function resetPalindrome() {
+    document.getElementById('palindromeInput').value = '';
+    clearOutput('palindrome');
+}
+</script>
+</body>
+</html>
