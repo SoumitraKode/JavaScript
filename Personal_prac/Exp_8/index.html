@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Changing Homepage Background colours</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      background: #f6f8fb;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      max-width: 540px;
+      margin: 60px auto;
+      padding: 44px 36px 36px 36px;
+      background: #f6f8fb;
+      border-radius: 15px;
+      box-shadow: 0 8px 36px #aad6e822;
+      text-align: center;
+      transition: background 0.35s;
+    }
+    .header {
+      font-size: 2em;
+      font-weight: 700;
+      color: #444c50;
+      letter-spacing: 1px;
+      margin-bottom: 35px;
+      transition: color 0.14s;
+    }
+    .info {
+      font-size: 1.17em;
+      margin-bottom: 14px;
+      color: #414347;
+    }
+    .info span { font-weight: 600;}
+    .row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+    .form-label {
+      font-size: 1.12em;
+      font-weight: bold;
+      margin-right: 9px;
+      color: #255280;
+    }
+    input[type="text"] {
+      padding: 11px 16px;
+      border-radius: 9px;
+      font-size: 1.09em;
+      border: 2px solid #adc7e4;
+      width: 260px;
+      background: #f2f4f7;
+      font-weight: 500;
+      transition: border-color 0.24s, box-shadow 0.24s, background 0.18s;
+    }
+    input[type="text"]:focus {
+      border-color: #e7821a;
+      background: #ffe7c6;
+      box-shadow: 0 7px 15px #fdb73f2a;
+      outline: none;
+    }
+    .yellow-bg { background: #ffe257 !important; }
+    .orange-bg { background: #ffb45d !important; }
+    .container { transition: background 0.28s; }
+    @media (max-width: 700px) {
+      .container { max-width: 98vw; margin: 14px auto; padding: 18px 2vw;}
+      input[type="text"] { width: 90vw; max-width: 260px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="mainSec">
+    <div class="header" id="mainHeader">Student Information</div>
+    <div class="info" id="studentName" tabindex="0">Name: <span>Soumitra Kode</span></div>
+    <div class="info">Roll No: <span>42134</span></div>
+    <div class="row">
+      <label class="form-label" for="batchInput">Batch:</label>
+      <input type="text" id="batchInput" placeholder="Enter your batch" />
+    </div>
+  </div>
+  <script>
+    // DOM references
+    const container = document.getElementById('mainSec');
+    const studentName = document.getElementById('studentName');
+    const batchInput = document.getElementById('batchInput');
+    // Default background
+    function setDefaultBackground() {
+      container.classList.remove('yellow-bg', 'orange-bg');
+    }
+    // Hover name = yellow
+    studentName.addEventListener('mouseenter', () => {
+      container.classList.add('yellow-bg');
+      container.classList.remove('orange-bg');
+    });
+    studentName.addEventListener('mouseleave', setDefaultBackground);
+    // Focus input = orange
+    batchInput.addEventListener('focus', () => {
+      container.classList.remove('yellow-bg');
+      container.classList.add('orange-bg');
+    });
+    batchInput.addEventListener('blur', setDefaultBackground);
+  </script>
+</body>
+</html>
